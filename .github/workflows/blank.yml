@@ -29,69 +29,18 @@ jobs:
       - name: Run a one-line script
         run: echo Hello, world!
 
-      - name: Branch protection ON
-        uses: octokit/request-action@v2.x
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAGE }} 
-        with:
-          route: PUT /repos/:gh-pages/branches/main/protection
-          repository: ${{ github.repository }}
-          mediaType: |
-            previews: 
-              - luke-cage
-          required_status_checks: |
-            strict: true
-            contexts:
-              - build
-          enforce_admins: |
-            true
-          required_pull_request_reviews: |
-            dismiss_stale_reviews: true
-            required_approving_review_count: 1
-
-# This is a basic workflow to help you get started with Actions
-
-name: CI
-
-# Controls when the workflow will run
-on:
-  # Triggers the workflow on push or pull request events but only for the main branch
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
-jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
       - name: Temporarily disable "include administrators" branch protection
         uses: benjefferies/branch-protection-bot@master
         if: always()
         with:
-        access_token: ${{ secrets.GH_PAGE }}
-        branch: ${{ github.event.repository.default_branch }}
+          access_token: ${{ secrets.GH_PAGE }}
+          branch: ${{ github.event.repository.default_branch }}
     
       - name: Enable "include administrators" branch protection
         uses: benjefferies/branch-protection-bot@master
         if: always()  # Force to always run this step to ensure "include administrators" is always turned back on
         with:
-        access_token: ${{ secrets.GH_PAGE }}
-        owner: chandrasekhar674
-        repo: gh-pages
-        branch: ${{ github.event.repository.default_branch }}
+          access_token: ${{ secrets.GH_PAGE }}
+          owner: chandrasekhar674
+          repo: gh-pages
+          branch: ${{ github.event.repository.default_branch }}
