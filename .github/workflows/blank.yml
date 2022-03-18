@@ -31,6 +31,8 @@ jobs:
 
       - name: Branch protection ON
         uses: octokit/request-action@v2.x
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAGE }} 
         with:
           route: PUT /repos/:gh-pages/branches/main/protection
           repository: ${{ github.repository }}
@@ -42,13 +44,9 @@ jobs:
             contexts:
               - build
           enforce_admins: |
-            null
+            true
           required_pull_request_reviews: |
             dismiss_stale_reviews: true
             required_approving_review_count: 1
-          restrictions: | 
-            null 
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_ACTIONS_REPO_ADMIN_CI_TOKEN }}    
 
-
+           
