@@ -32,7 +32,7 @@ jobs:
       - name: Branch protection ON
         uses: octokit/request-action@v2.x
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAGE }} 
+          GITHUB_TOKEN: ${{ secrets.NEWTOKEN }} 
         with:
           route: PUT /repos/:gh-pages/branches/main/protection
           repository: ${{ github.repository }}
